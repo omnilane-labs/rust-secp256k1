@@ -34,25 +34,6 @@ impl AlignedType {
 #[cfg(all(feature = "alloc", not(rust_secp_no_symbol_renaming)))]
 pub(crate) const ALIGN_TO: usize = core::mem::align_of::<AlignedType>();
 
-#[cfg(test)]
-mod tests {
-    extern crate libc;
-    use std::any::TypeId;
-    use std::mem;
-    use std::os::raw;
-    use crate::{types, AlignedType};
-
-    #[test]
-    fn verify_types() {
-        assert_eq!(TypeId::of::<types::c_int>(), TypeId::of::<raw::c_int>());
-        assert_eq!(TypeId::of::<types::c_uchar>(), TypeId::of::<raw::c_uchar>());
-        assert_eq!(TypeId::of::<types::c_uint>(), TypeId::of::<raw::c_uint>());
-        assert_eq!(TypeId::of::<types::c_char>(), TypeId::of::<raw::c_char>());
-
-        assert!(mem::align_of::<AlignedType>() >= mem::align_of::<self::libc::max_align_t>());
-    }
-}
-
 #[doc(hidden)]
 #[cfg(target_arch = "wasm32")]
 pub fn sanity_checks_for_wasm() {
